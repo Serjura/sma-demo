@@ -17,7 +17,7 @@ function App() {
       formData.append('file', selectedFile);
 
       try {
-        const response = await fetch('http://max-human-pose-estimator/model/predict', {
+        const response = await fetch('http://max-human-pose-estimator.demo.svc.cluster.local/model/predict', {
           method: 'POST',
           body: formData,
         });
