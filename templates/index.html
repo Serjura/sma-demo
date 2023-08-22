@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pose Estimation Web App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Pose Estimation Web App</h1>
+    
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <input type="button" id="predict-button" value="Predict">
+    </form>
+    
+    <div class="log-messages">
+        <h2>Log Messages</h2>
+        <ul id="log-list"></ul>
+    </div>
+    
+    <div class="marked-image">
+        <h2>Marked Image</h2>
+        <img id="marked-image" alt="Marked Image">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#predict-button").click(function() {
+                var formData = new FormData($("#upload-form")[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $("#log-list").empty();
+                        response.log_messages.forEach(function(message) {
+                            $("#log-list").append("<li>" + message + "</li>");
+                        });
+                        $("#marked-image").attr("src", "data:image/jpeg;base64," + response.marked_image);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log("Error:", textStatus);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
