@@ -12,13 +12,7 @@
         <input type="button" id="predict-button" value="Predict">
     </form>
     
-    <div class="log-messages">
-        <h2>Log Messages</h2>
-        <ul id="log-list"></ul>
-    </div>
-    
     <div class="marked-image">
-        <h2>Marked Image</h2>
         <img id="marked-image" alt="Marked Image">
     </div>
 
@@ -33,10 +27,6 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        $("#log-list").empty();
-                        response.log_messages.forEach(function(message) {
-                            $("#log-list").append("<li>" + message + "</li>");
-                        });
                         $("#marked-image").attr("src", "data:image/jpeg;base64," + response.marked_image);
                     },
                     error: function(xhr, textStatus, errorThrown) {
